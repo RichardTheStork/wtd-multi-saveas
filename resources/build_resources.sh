@@ -16,7 +16,9 @@ UI_PYTHON_PATH=../python/app/ui
 
 # Helper functions to build UI files
 function build_qt {
+    echo " > Start " $1
     echo " > Building " $2
+    echo " > Output " $UI_PYTHON_PATH/$3.py
     
     # compile ui to python
     $1 $2 > $UI_PYTHON_PATH/$3.py
@@ -36,9 +38,10 @@ function build_res {
 
 # build UI's:
 echo "building user interfaces..."
-build_ui dialog
+# build_ui dialog
+build_ui SaveAsResolution
 # add any additional .ui files you want converted here!
 
 # build resources
-echo "building resources..."
-build_res resources
+# echo "building resources..."
+# build_res resources
