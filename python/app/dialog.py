@@ -57,6 +57,6 @@ class AppDialog(QtGui.QWidget):
 		# - A tk API instance, via self._app.tk 
 		
 		# lastly, set up our very basic UI
-		# self.ui.context.setText("Current Context: %s" % self._app.context)
+		self.ui.label_workArea.setText("WorkArea: %s" % self._app.context)
 		
 		
