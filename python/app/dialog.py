@@ -80,49 +80,87 @@ class AppDialog(QtGui.QWidget):
 		self.ui.pushButton_changeArea.hide()
 		
 	def NewFileName(self):
-		scenePath = cmds.file(q=True,sceneName=True)
-		tk = sgtk.sgtk_from_path(scenePath)
-		tk = self._app.sgtk
-		scene_template = tk.template_from_path(scenePath)
-		flds = scene_template.get_fields(scenePath)
 
+		scenePath = cmds.file(q=True,sceneName=True)
 		
-		print "Click save"
-		currCTXT = self._app.context
-		newTemplateName = str(scene_template.name).replace("publish","work")
-		newTemplate = self._app.get_template_by_name(newTemplateName)
-		
-		if not newTemplate:
-			print "ERROR : %s is not existing template!" %newTemplateName
-			return None
+		if scenePath:
+			tk = sgtk.sgtk_from_path(scenePath)
+			tk = self._app.sgtk
+			scene_template = tk.template_from_path(scenePath)
+			flds = scene_template.get_fields(scenePath)
+
 			
-		flds['Step'] = currCTXT.as_template_fields(newTemplate)["Step"]
-		
-		pathCTXT = tk.context_from_path(scenePath)
-		
-		flds['Resolution'] = self.resolutionShort
-		Newfile_path = newTemplate.apply_fields(flds)
-		
-		print "*"*20
-		print scene_template
-		print flds
-		print "Scenepath = %s" %scenePath
-		print "New file  = %s" %Newfile_path
-		print "*"*20
-		
-		if currCTXT != pathCTXT:
-			print currCTXT
-			print pathCTXT
-			print "ctxts differents"
+			print "Click save"
+			currCTXT = self._app.context
+			newTemplateName = str(scene_template.name).replace("publish","work")
+			newTemplate = self._app.get_template_by_name(newTemplateName)
 			
+			if not newTemplate:
+				print "ERROR : %s is not existing template!" %newTemplateName
+				return None
+				
+			flds['Step'] = currCTXT.as_template_fields(newTemplate)["Step"]
+			
+			pathCTXT = tk.context_from_path(scenePath)
+			
+			flds['Resolution'] = self.resolutionShort
+			Newfile_path = newTemplate.apply_fields(flds)
+			
+			print "*"*20
+			print scene_template
+			print flds
+			print "Scenepath = %s" %scenePath
+			print "New file  = %s" %Newfile_path
+			print "*"*20
+			
+			if currCTXT != pathCTXT:
+				print currCTXT
+				print pathCTXT
+				print "ctxts differents"
+				
+			else:
+				print "same ctxt"
+			
+			print "*"*20
+			
+			if Newfile_path:
+				flds['version']+=1
+				Newfile_path = newTemplate.apply_fields(flds)
+				return Newfile_path
+			else:
+				print Newfile_path
+				return Newfile_path
+			# cmds.file(rename=Newfile_path)		
 		else:
-			print "same ctxt"
-		
-		print "*"*20
-		
-		return Newfile_path
-		# cmds.file(rename=Newfile_path)		
-		
+			flds ={}
+			print 'pas de nom'
+			currCTXT = self._app.context
+			# test= self._app.get_setting("sg_entity_types", [])
+			# print test
+			print currCTXT
+			tk = self._app.sgtk
+			maya_asset_work_template = tk.templates["maya_asset_work"]
+			print maya_asset_work_template
+			newTemplate = self._app.get_template_by_name(maya_asset_work_template.name)
+			flds["Asset"] = currCTXT.as_template_fields(newTemplate)["Asset"]
+			flds["sg_asset_type"] = currCTXT.as_template_fields(newTemplate)["sg_asset_type"]
+			# print test2
+			flds['Step'] = currCTXT.as_template_fields(newTemplate)['Step']
+			flds['version'] = 001
+			flds['Resolution'] = self.resolutionShort
+			print flds
+			Newfile_path = newTemplate.apply_fields(flds)
+			if Newfile_path:
+				flds['version']= currCTXT.as_template_fields(newTemplate)["Asset"]
+				flds['version']+=1
+				Newfile_path = newTemplate.apply_fields(flds)
+				return Newfile_path
+			else:
+				print Newfile_path
+				return Newfile_path
+			# return Newfile_path
+			
+			
 	def reset_workarea(self):
 		print 'todo'
 		
@@ -131,6 +169,7 @@ class AppDialog(QtGui.QWidget):
 		NewName = self.NewFileName()
 		cmds.file(rename=NewName)
 		cmds.file(save=True)
+		self.destroy_app()
 				
 	def change_workarea_click(self):
 		print "Click change"
