@@ -123,14 +123,14 @@ class AppDialog(QtGui.QWidget):
 			
 			print "*"*20
 			
-			if Newfile_path:
+			if os.path.isfile(Newfile_path): 
 				flds['version']+=1
 				Newfile_path = newTemplate.apply_fields(flds)
 				return Newfile_path
 			else:
 				print Newfile_path
 				return Newfile_path
-			# cmds.file(rename=Newfile_path)		
+			# cmds.file(rename=Newfile_path)
 		else:
 			flds ={}
 			print 'pas de nom'
@@ -150,15 +150,14 @@ class AppDialog(QtGui.QWidget):
 			flds['Resolution'] = self.resolutionShort
 			print flds
 			Newfile_path = newTemplate.apply_fields(flds)
-			if Newfile_path:
-				flds['version']= currCTXT.as_template_fields(newTemplate)["Asset"]
+			if os.path.isfile(Newfile_path):
 				flds['version']+=1
-				Newfile_path = newTemplate.apply_fields(flds)
+				Newfile_path_Vincr = newTemplate.apply_fields(flds)
+				Newfile_path = Newfile_path_Vincr
 				return Newfile_path
 			else:
-				print Newfile_path
 				return Newfile_path
-			# return Newfile_path
+
 			
 			
 	def reset_workarea(self):
