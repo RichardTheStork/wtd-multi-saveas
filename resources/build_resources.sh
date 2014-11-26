@@ -28,11 +28,11 @@ function build_qt {
 }
 
 function build_ui {
-    build_qt "pyside-uic --from-imports" "$1.ui" "$1"
+    build_qt "C:\Python27\Scripts\pyside-uic --from-imports" "$1.ui" "$1"
 }  
 
 function build_res {
-    build_qt "pyside-rcc" "$1.qrc" "$1_rc"
+    build_qt "C:\Python27\Scripts\pyside-rcc" "$1.qrc" "$1_rc"
 }
 
 

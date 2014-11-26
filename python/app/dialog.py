@@ -72,15 +72,17 @@ class AppDialog(QtGui.QWidget):
 		self.filename = str(os.path.basename(NewFileName))
 		self.filepath = str(os.path.dirname(NewFileName))
 		self.ui.label_fileName.setText("Filename: %s" % self.filename)
-		self.ui.label_fileName.setText("Filepath: %s" % self.filepath
+		self.ui.label_filePath.setText("Filepath: %s" % self.filepath)
 		
-		QtCore.QObject.connect(self.ui.pushButton_Save, QtCore.SIGNAL('clicked()'), self.save_click)
+		QtCore.QObject.connect(self.ui.pushButton_save, QtCore.SIGNAL('clicked()'), self.save_click)
 		QtCore.QObject.connect(self.ui.pushButton_changeArea, QtCore.SIGNAL('clicked()'), self.change_workarea_click)
 		QtCore.QObject.connect(self.ui.pushButton_cancel, QtCore.SIGNAL('clicked()'), self.cancel_click)
+		self.ui.pushButton_changeArea.hide()
 		
 	def NewFileName(self):
 		scenePath = cmds.file(q=True,sceneName=True)
 		tk = sgtk.sgtk_from_path(scenePath)
+		tk = self._app.sgtk
 		scene_template = tk.template_from_path(scenePath)
 		flds = scene_template.get_fields(scenePath)
 
@@ -127,11 +129,18 @@ class AppDialog(QtGui.QWidget):
 	def save_click(self):
 
 		NewName = self.NewFileName()
-		# cmds.file(rename=NewName)
-		# cmds.file(save=True)
+		cmds.file(rename=NewName)
+		cmds.file(save=True)
 				
 	def change_workarea_click(self):
 		print "Click change"
+		# print self._app.engine._Engine__applications["tk-multi-workfiles"].init_app()
+		# print dir(self._app.engine._Engine__applications["tk-multi-workfiles"])
+		# print sgtk.engine.apps["tk-multi-workfiles"]
+		
+		print dir(sgtk)
+		print dir(self)
+		print dir(self._app)
 		"""print dir(self)
 		print dir(self._app)
 		# print dir(self._app.engine)
@@ -139,7 +148,6 @@ class AppDialog(QtGui.QWidget):
 		print self._app.engine._Engine__applications
 		# print self._app.engine.apps
 		print self._app.engine._Engine__applications["tk-maya-breakdown"]
-		self._app.engine._Engine__applications["tk-multi-workfiles"]
 		# print dir(self._app.engine._Engine__applications["tk-multi-workfiles"])
 		# print self._app.engine.apps["tk-multi-about"]
 		print 'OK...'"""

@@ -36,7 +36,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QPushButton" name="pushButton_Save">
+     <widget class="QPushButton" name="pushButton_save">
       <property name="toolTip">
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to save the file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
@@ -138,7 +138,7 @@
      <string>filename</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_path">
+   <widget class="QLabel" name="label_filePath">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -162,7 +162,7 @@
      <string>path</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_workArea_2">
+   <widget class="QLabel" name="label_workArea">
     <property name="geometry">
      <rect>
       <x>10</x>
